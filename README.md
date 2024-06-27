@@ -18,27 +18,27 @@ Date: 26/06/2024 16:53:44
 
 | Name                | Description | Storage Mode | Source | Is Hidden |
 | ------------------- | ----------- | ------------ | ------ | --------- |
-| Dataset salary 2024 |             | Import       | let    |
+| Dataset salary 2024 |             | Import       | ```let |
 
 Origem = Csv.Document(Web.Contents("https://nasnuvensrnp-my.sharepoint.com/personal/guilherme_martins_terceiro_rnp_br/Documents/Aplicativos/Microsoft Power Query/Uploaded Files/Dataset salary 2024.csv"), [Delimiter = ",", Columns = 11, QuoteStyle = QuoteStyle.None]),
 #"Cabeçalhos promovidos" = Table.PromoteHeaders(Origem, [PromoteAllScalars = true]),
 #"Tipo de coluna alterado" = Table.TransformColumnTypes(#"Cabeçalhos promovidos", {{"work_year", Int64.Type}, {"experience_level", type text}, {"employment_type", type text}, {"job_title", type text}, {"salary", Int64.Type}, {"salary_currency", type text}, {"salary_in_usd", Int64.Type}, {"employee_residence", type text}, {"remote_ratio", Int64.Type}, {"company_location", type text}, {"company_size", type text}}),
 #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo de coluna alterado",{{"experience_level", "nível de experiência"}, {"job_title", "posição"}, {"employee_residence", "Localidade dos empregados"}, {"company_location", "Localização de empresa"}})
 in
-#"Colunas Renomeadas" | False |
-| DateTableTemplate_193c27cd-b61f-45fe-8158-ac532f346cb3 | | Import | Calendar(Date(2015,1,1), Date(2015,1,1)) | True |
+#"Colunas Renomeadas"`| False |
+| DateTableTemplate_193c27cd-b61f-45fe-8158-ac532f346cb3 |  | Import |`Calendar(Date(2015,1,1), Date(2015,1,1))``` | True |
 
 ---
 
 ### List of Measures:
 
-| Measure Name                         | Table Name          | Description | Expression                                       | Dependency                                                                                                                | Reverse Dependency                            |
-| ------------------------------------ | ------------------- | ----------- | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
-| Média salarial em USD                | Dataset salary 2024 |             | AVERAGE ( [salary_in_usd] )                      | Measure: Média salarial em USDColumn: salary_in_usd (Table: Dataset salary 2024)                                          | Measure: Média salarial em USD                |
-| Salário minimo em USD                | Dataset salary 2024 |             | MIN ( 'Dataset salary 2024'[salary_in_usd] )     | Measure: Salário minimo em USDTable: Dataset salary 2024Column: salary_in_usd (Table: Dataset salary 2024)                | Measure: Salário minimo em USD                |
-| Salário mais alto em USD             | Dataset salary 2024 |             | MAX ( 'Dataset salary 2024'[salary_in_usd] )     | Measure: Salário mais alto em USDTable: Dataset salary 2024Column: salary_in_usd (Table: Dataset salary 2024)             | Measure: Salário mais alto em USD             |
-| Salário médio                        | Dataset salary 2024 |             | AVERAGE ( 'Dataset salary 2024'[salary_in_usd] ) | Measure: Salário médioTable: Dataset salary 2024Column: salary_in_usd (Table: Dataset salary 2024)                        | Measure: Salário médio                        |
-| Salário médio por título de trabalho | Dataset salary 2024 |             | AVERAGE ( 'Dataset salary 2024'[salary_in_usd] ) | Measure: Salário médio por título de trabalhoTable: Dataset salary 2024Column: salary_in_usd (Table: Dataset salary 2024) | Measure: Salário médio por título de trabalho |
+| Measure Name                         | Table Name          | Description | Expression                                         | Dependency                                                                                                                | Reverse Dependency                            |
+| ------------------------------------ | ------------------- | ----------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| Média salarial em USD                | Dataset salary 2024 |             | `AVERAGE ( [salary_in_usd] )`                      | Measure: Média salarial em USDColumn: salary_in_usd (Table: Dataset salary 2024)                                          | Measure: Média salarial em USD                |
+| Salário minimo em USD                | Dataset salary 2024 |             | `MIN ( 'Dataset salary 2024'[salary_in_usd] )`     | Measure: Salário minimo em USDTable: Dataset salary 2024Column: salary_in_usd (Table: Dataset salary 2024)                | Measure: Salário minimo em USD                |
+| Salário mais alto em USD             | Dataset salary 2024 |             | `MAX ( 'Dataset salary 2024'[salary_in_usd] )`     | Measure: Salário mais alto em USDTable: Dataset salary 2024Column: salary_in_usd (Table: Dataset salary 2024)             | Measure: Salário mais alto em USD             |
+| Salário médio                        | Dataset salary 2024 |             | `AVERAGE ( 'Dataset salary 2024'[salary_in_usd] )` | Measure: Salário médioTable: Dataset salary 2024Column: salary_in_usd (Table: Dataset salary 2024)                        | Measure: Salário médio                        |
+| Salário médio por título de trabalho | Dataset salary 2024 |             | `AVERAGE ( 'Dataset salary 2024'[salary_in_usd] )` | Measure: Salário médio por título de trabalhoTable: Dataset salary 2024Column: salary_in_usd (Table: Dataset salary 2024) | Measure: Salário médio por título de trabalho |
 
 ---
 
