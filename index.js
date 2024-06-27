@@ -45,7 +45,9 @@ turndownService.addRule("table", {
   filter: "table",
   replacement: function (content, node) {
     let table = "\n";
-    Array.from(node.querySelectorAll("tr")).forEach((rowNode, rowIndex) => {
+    const rows = Array.from(node.querySelectorAll("tr"));
+    const colCount = rows[0].querySelectorAll("th, td").length;
+    rows.forEach((rowNode, rowIndex) => {
       let row = "| ";
       Array.from(rowNode.querySelectorAll("th, td")).forEach((cellNode) => {
         if (cellNode.querySelector("pre")) {
@@ -56,8 +58,7 @@ turndownService.addRule("table", {
       });
       table += row + "\n";
       if (rowIndex === 0) {
-        table +=
-          "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n";
+        table += "| " + " --- |".repeat(colCount) + "\n"; // Add a header separator after the first row
       }
     });
     return table;
