@@ -1,6 +1,8 @@
+const fs = require("fs");
 const TurndownService = require("turndown");
 const turndownService = new TurndownService();
 
+const filePath = "input/index.htm";
 // Extend Turndown with a rule to handle <hr> and <br> tags
 turndownService.addRule("hr", {
   filter: "hr",
@@ -15,6 +17,8 @@ turndownService.addRule("br", {
     return "  \n";
   },
 });
+
+// Add a rule to remove <div> tags and their content
 turndownService.addRule("div", {
   filter: "div",
   replacement: function (content) {
@@ -22,6 +26,22 @@ turndownService.addRule("div", {
   },
 });
 
+// Add rules to ignore <style> and <script> tags and their content
+turndownService.addRule("style", {
+  filter: "style",
+  replacement: function () {
+    return ""; // Return an empty string to remove the content
+  },
+});
+
+turndownService.addRule("script", {
+  filter: "script",
+  replacement: function () {
+    return ""; // Return an empty string to remove the content
+  },
+});
+
+// Ensure tables are handled properly
 turndownService.addRule("table", {
   filter: "table",
   replacement: function (content, node) {
@@ -33,99 +53,21 @@ turndownService.addRule("table", {
       });
       table += row + "\n";
       if (rowIndex === 0) {
-        table += "| --- | --- | --- | --- |\n";
+        table += "| --- | --- | --- | --- |\n"; // Add a header separator after the first row
       }
     });
     return table;
   },
 });
 
-const html = `
-<hr><br><h3>List of Columns for Table Dataset salary 2024:</h3><br>
-<table>
-  <tr>
-    <th>Column Name</th>
-    <th>Description</th>
-    <th>Calculated Column</th>
-    <th>Expression</th>
-  </tr>
-  <tr>
-    <td>work_year</td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>nível de experiência</td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>employment_type</td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>posição</td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>salary</td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>salary_currency</td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>salary_in_usd</td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>Localidade dos empregados</td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>remote_ratio</td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>Localização de empresa</td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>company_size</td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-</table>
-<hr><br><h3>List of Roles:</h3><br>
-<table>
-  <tr>
-    <th>Role Name</th>
-    <th>Table Name</th>
-    <th>Description</th>
-    <th>Expression</th>
-  </tr>
-</table>
-`;
+// Read the HTML file
+fs.readFile(filePath, "utf8", (err, html) => {
+  if (err) {
+    console.error("Error reading the file:", err);
+    return;
+  }
 
-const markdown = turndownService.turndown(html);
-console.log(markdown);
+  // Convert HTML to Markdown
+  const markdown = turndownService.turndown(html);
+  console.log(markdown);
+});
